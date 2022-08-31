@@ -1,0 +1,54 @@
+function senddata() {
+
+var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1eKb9jpquvszFwNnfTF-l8tYu4L3C0jMz3jxd5rb7vSA/edit#gid=0");
+var tab = ss.getSheetByName("data");
+var units_count = tab.getRange("B3").getValue();
+
+
+//  connectting with the html template 
+var tem = HtmlService.createTemplateFromFile("Template");
+tem.units_count = units_count; 
+
+// finalizing the html content and fetching content
+var email_body = tem.evaluate().getContent();
+
+
+MailApp.sendEmail(
+  { 
+    to:"pbtchinaa@gmail.com",
+    subject:"New Supplier Detail",
+    htmlBody: email_body,
+  }
+)
+
+
+}
+
+
+HTML TEMPLATE 
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    
+    <div> Hi All,</div>
+
+    <div> We got a new supplier which can provide <?!= units_count ?> units every day. Request your team to please contact the supplier and proceed with the order. </div>
+
+   <br></br> 
+
+    <div>Regards</div>
+    <div>Name</div>
+
+
+
+
+  </body>
+</html>
+
+
+
